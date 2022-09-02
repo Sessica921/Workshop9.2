@@ -40,7 +40,7 @@ p_load(bookdown, tidyverse, ggforce, flextable, latex2exp, png, magick) # basica
 
 While the tasks are meant to get you familiar with how *GitHub* works you should try and make regular commits as you work your way through. We want to see how often you're using *Git*. Below, within the `()` brackets provide the link to your GitHub Repo. Just cut and paste it so we know what the repo name is and where it is. 
 
-[My GitHub Repository]()
+[My GitHub Repository](https://github.com/Sessica921/Workshop9.2/blob/bdf674682565459832511d7bf32096080d4fa801/git_fishes_student.Rmd)
 
 By adding the link in the `()` brackets it will hyperlink "My GitHub Repository". This is how to hyperlink in Rmarkdown documents.
 
@@ -53,7 +53,7 @@ This task involves cloning your repository on your computer. Where should we pla
 
 ```{r, answer1, echo=TRUE, eval = FALSE}
 
-## Write your answer here. 
+## Since the document and the text are public, it is easy to cause information leakage.
 
 ```
 
