@@ -181,14 +181,14 @@ ggplot(target_data, mapping = aes(x = species, y = mean, colour=treatment))+
    annotation_raster(humbug,3.5,4.5, 25,30)+
    annotation_raster(lemon,4.5,5.5, 30,35)+
    annotation_raster(whitedams,5.5,6.5, 30,35)
-ggsave('./output/figures/target_png',width = 6, height= 8)
+ggsave('./output/figures/target.png',width = 6, height= 8)
    
 ```
 
 >**Question 6**: Given that you have added `output/figures/` to your `.gitignore` file describe what you notice about what you see in *GitHub Desktop*. 
 
 ```{r}
-## Write your answer here
+## In my Github Desktop, I could see the pictures I add to my plot and the last plot that I save.
 ```
 
 Last question for this task. I promise! It's important to think very carefully about what you track and ignore.
@@ -196,7 +196,7 @@ Last question for this task. I promise! It's important to think very carefully a
 >**Question 7**: Assume that you added the `pics/` folder to your working directory to plot pictures of each fish on your figure. Do you want to track the files in the pic/ folder on GitHub despite them being .png files? Explain your reasoning. 
 
 ```{r, answer6}
-## Add your answer here
+## No, because in this condition the result figures would in a mess compared to save them in a file.
 ```
 
 # **Task 6**
