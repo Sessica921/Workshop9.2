@@ -119,14 +119,13 @@ First, write some code below to remove missing data
 
 ```{r, rmMiss}
 new_data <- data %>% filter(!(is.na(activity)))
-new_data
 ```
 
 Second, drop out irrelevant columns and check that there are no spelling issues in `species` and `treatment`. Create a table of summary data that includes: 1) the mean, 2) the standard error and 3) the sample sizes of unique fish across ALL six fish species for each treatment. This will also help you detect any spelling errors. You can use the R package [`flextable`](https://ardata-fr.github.io/flextable-book/) to print out the results in a nice neat format! If you haven't heard about `flextable` spend 10 or so minutes having a look at it's functionality. It's incredible! You'll use this for tables throughout.
 
 ```{r summaryTab}
 # Drop irrelevant columns
-new_data_new <- -which(colnames(df) %in% c("loc","animal_id","sl","size"))
+new_data1 <- new_data %>% filter(!species=="whitedams")
 # Check spelling in species and treatment but also generate a summary table
 target_data <- new_data %>% group_by(species, treatment) %>% summarise (
   mean=mean(activity),
@@ -175,12 +174,13 @@ lemon <- readPNG("./pics/lemon.png")
 whitedams <- readPNG("./pics/whitedams.png")
 ggplot(target_data, mapping = aes(x = species, y = mean, colour=treatment))+
    geom_boxplot(aes(fill= treatment))+
-   annotation_raster(acantho,0.5,1.5, 20,25)+
-   annotation_raster(ambon,1.5,2.5, 30,35)+
-   annotation_raster(chromis,2.5,3.5, 30,35)+
-   annotation_raster(humbug,3.5,4.5, 25,30)+
-   annotation_raster(lemon,4.5,5.5, 30,35)+
-   annotation_raster(whitedams,5.5,6.5, 30,35)
+   ylim(0,50)+
+   annotation_raster(acantho,0.5,1.5, 40,50)+
+   annotation_raster(ambon,1.5,2.5, 40,50)+
+   annotation_raster(chromis,2.5,3.5, 40,50)+
+   annotation_raster(humbug,3.5,4.5, 40,50)+
+   annotation_raster(lemon,4.5,5.5, 40,50)+
+   annotation_raster(whitedams,5.5,6.5, 40,50)
 ggsave('./output/figures/target.png',width = 6, height= 8)
    
 ```
@@ -205,7 +205,7 @@ This task involves teaming up with a collaborator. Exchange *GitHub* username de
 Now, lets create a new figure in the code block below that simplifies the one produced in **Task 5**. Instead of all species, lets just plot three of the species (chromis, lemon, and acantho). In the figure code chunk make sure you add the necessary arguments (e.g., `fig.cap`) so that you can refer to Figure \@ref(fig:collabFig).
 
 ```{r, collabFig, echo=TRUE, eval=TRUE}
-# You want to make changes to your collaborators figure in Task 5. Maybe you want to create a figure that focuses only on three fish species instead of the 5. More specifically, chromis, lemon, and acantho. Add code here to revise their figure to do that.
+
 ```
 
 
@@ -241,11 +241,25 @@ Here, run some statistical tests to determine, for each species, whether the con
 >**Stretch Task**: You can of course do this for each species seperately, but those who want a challenge, think about how you might use a loop or even some wrangling methods you have already learnt from the tidyverse to run these tests across all 6 species in a single block of code. If you're familiar with functions, you can even think about writing your own function! All these strategies will avoid having to copy and paste large chunks of code. If you're repeating anything, writing functions and loops are good ways to simplify.
 
 ```{r, stats, echo=TRUE, eval=TRUE}
-# Add your code here
+#new_data_new <- data.frame(matrix(lapply(target_data,as.character)))
+#t.test(data=new_data_new$species,activity~treatment)
+acantho1 <- new_data %>% filter (species=="acantho")
+t.test(data=acantho1,activity~treatment)
+ambon1 <- new_data %>% filter (species=="ambon")
+t.test(data=ambon1,activity~treatment)
+chromis1 <- new_data%>% filter (species=="chromis")
+t.test(data=chromis1,activity~treatment)
+humbug1 <- new_data%>% filter (species=="humbug")
+t.test(data=humbug1,activity~treatment)
+lemon1 <- new_data %>% filter (species=="lemon")
+t.test(data=lemon1, activity~treatment)
+whitedams1 <- new_data %>% filter (species=="whitedams")
+t.test(data=whitedams1,activity~treatment)
 ```
 
 ```{r, table1, echo=TRUE, eval=TRUE, tab.cap = "write a caption here"}
-# Using the resulting object created above, which should be a table with all the summary statistics, t, df and p-value for each species create a table. Note that there is a tab.cap argument in the chunk arguments. Write a caption here. 
+summarise(species=species()
+          t=)
 ```
 
 Now that you have a table, you can reference it within a document. For example, you can make a call to Table \@ref(tab:table1) by referring to the name of the code chunk. When you knit the html it will create a hyperlink to your table and insert a legend above the table for you. How cool is that!?
