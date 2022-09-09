@@ -52,7 +52,7 @@ This task involves cloning your repository on your computer. Where should we pla
 
 ```{r, answer1, echo=TRUE, eval = FALSE}
 
-## Since the document and the text are public, it is easy to cause information leakage.
+## Actually, it needs the user to upload the file, or it would be unable to update synchronously.And sometimes I found that some of my codes haven't record in my github.
 
 ```
 
@@ -90,7 +90,7 @@ Make sure you have added a `data/` folder to your working directory that you jus
 
 Write your answer in the code chunk below:
 
-```{r, loaddata, eval = FALSE, echo=TRUE}
+```{r, loaddata, eval = TURE, echo=TRUE}
 
 path <- "./data/OA_activitydat_20190302_BIOL3207.csv"
   
@@ -102,7 +102,7 @@ Let's say that you added a new data folder that was inside an output folder (i.e
 
 >**Question 4**: Using the `write_csv` function how would you write the path name to save this file to `output/data`?
 
-```{r, write, eval = FALSE, echo=TRUE}
+```{r, write, eval = TURE, echo=TRUE}
 
 path <- "./output/data"
 
@@ -151,10 +151,10 @@ Ignoring figures can be important because they take up quite a lot of space in y
 
 `.gitignore` files are used to control what *Git* tracks and what it ignores. You should have created a new folder path: `output/figures/`. Write some code now to create a pretty figure using ggplot that shows the difference between control and acidification treatments for each of the fish species in the data set:
 
-```{r, prettyfig, fig.align='center', fig.cap="add a legend here"}
+```{r, prettyfig, fig.align='center', fig.cap="activity difference for six species"}
 # ggplot figure showing mean activity for each treatment (Control, OA) for each species.
-ggplot(target_data, mapping = aes(x = species, y = mean, colour=treatment))+
-   geom_boxplot(aes(fill= treatment))
+ggplot(new_data, mapping = aes(x = species, y = activity, colour=treatment))+
+   geom_boxplot()
 ```
 
 **Stretch Task**: The Clark et al. 2020 paper plots some pretty pictures on their figures. You have access to a folder called "pics/". Add the pics of the difference species from the "pics/" folder to your new plot. Explore the function `annotation_raster()` which might help you achieve this goal.
@@ -166,21 +166,21 @@ Now that you have the figure you may also want to write / save it as a separate 
 ```{r, savefig}
 # Use ggsave to save the figure
 library(png)
-acantho <- readPNG("./pics/acantho.png")
+acantho <- readPNG("./pics/acantho.png")  
 ambon <- readPNG("./pics/ambon.png")
 chromis <- readPNG("./pics/chromis.png")
 humbug <- readPNG("./pics/humbug.png")
 lemon <- readPNG("./pics/lemon.png")
 whitedams <- readPNG("./pics/whitedams.png")
-ggplot(target_data, mapping = aes(x = species, y = mean, colour=treatment))+
-   geom_boxplot(aes(fill= treatment))+
-   ylim(0,50)+
-   annotation_raster(acantho,0.5,1.5, 40,50)+
-   annotation_raster(ambon,1.5,2.5, 40,50)+
-   annotation_raster(chromis,2.5,3.5, 40,50)+
-   annotation_raster(humbug,3.5,4.5, 40,50)+
-   annotation_raster(lemon,4.5,5.5, 40,50)+
-   annotation_raster(whitedams,5.5,6.5, 40,50)
+ggplot(new_data, mapping = aes(x = species, y = activity, colour=treatment))+
+   geom_boxplot()+
+   ylim(0,80)+
+   annotation_raster(acantho,0.5,1.5, 70,80)+
+   annotation_raster(ambon,1.5,2.5, 70,80)+
+   annotation_raster(chromis,2.5,3.5, 70,80)+
+   annotation_raster(humbug,3.5,4.5, 70,80)+
+   annotation_raster(lemon,4.5,5.5, 70,80)+
+   annotation_raster(whitedams,5.5,6.5, 70,80)
 ggsave('./output/figures/target.png',width = 6, height= 8)
    
 ```
@@ -232,6 +232,8 @@ Once you have figured out how to create and solve conflicts it's time to update 
 
 Think about what you would need to know to make sure you can replicate a study. Provide these details so they are easy to find on the README.
 
+# The file we used is called workshop9.2 and all the figures, output and pngs could find in the file. If someone need to use me file, just use the latest file I update on the Github or the rmd file called git_fishes_student.Rmd. The fishes' figures are in the pics file and all the out put figures are in the output file and the original data is in file 'data'.And the plot that includes six species and the figures is called target.png.
+
 # **Task 8**
 There's not too much to do in this task on the coding front! You just need to create a *GitHub* issue and create a 'To Do' list on *GitHub* for you and your collaborator. 
 
@@ -241,25 +243,39 @@ Here, run some statistical tests to determine, for each species, whether the con
 >**Stretch Task**: You can of course do this for each species seperately, but those who want a challenge, think about how you might use a loop or even some wrangling methods you have already learnt from the tidyverse to run these tests across all 6 species in a single block of code. If you're familiar with functions, you can even think about writing your own function! All these strategies will avoid having to copy and paste large chunks of code. If you're repeating anything, writing functions and loops are good ways to simplify.
 
 ```{r, stats, echo=TRUE, eval=TRUE}
-#new_data_new <- data.frame(matrix(lapply(target_data,as.character)))
-#t.test(data=new_data_new$species,activity~treatment)
+# stat.test <- new_data %>% group_by(species) %>% t.test(activity ~ treatment)
 acantho1 <- new_data %>% filter (species=="acantho")
-t.test(data=acantho1,activity~treatment)
+re1 <- t.test(data=acantho1,activity~treatment)
 ambon1 <- new_data %>% filter (species=="ambon")
-t.test(data=ambon1,activity~treatment)
+re2 <- t.test(data=ambon1,activity~treatment)
 chromis1 <- new_data%>% filter (species=="chromis")
-t.test(data=chromis1,activity~treatment)
+re3 <- t.test(data=chromis1,activity~treatment)
 humbug1 <- new_data%>% filter (species=="humbug")
-t.test(data=humbug1,activity~treatment)
+re4 <- t.test(data=humbug1,activity~treatment)
 lemon1 <- new_data %>% filter (species=="lemon")
-t.test(data=lemon1, activity~treatment)
+re5 <- t.test(data=lemon1, activity~treatment)
 whitedams1 <- new_data %>% filter (species=="whitedams")
-t.test(data=whitedams1,activity~treatment)
+re6 <-t.test(data=whitedams1,activity~treatment)
+re1
+re2
+re3
+re4
+re5
+re6
+str(re1)
 ```
 
-```{r, table1, echo=TRUE, eval=TRUE, tab.cap = "write a caption here"}
-summarise(species=species()
-          t=)
+```{r, table1, echo=TRUE, eval=TRUE, tab.cap = "t test for all the species"}
+species <- c("acantho", "ambon", "chromis", "humbug", "lemon", "whitedams")
+p_value <- c(re1$p.value, re2$p.value, re3$p.value, re4$p.value, re5$p.value, re6$p.value)
+df <- c(re1$parameter, re2$parameter, re3$parameter, re4$parameter, re5$parameter, re6$parameter)
+t_statistic <- c(re1$statistic, re2$statistic, re3$statistic, re4$statistic, re5$statistic, re6$statistic)
+confi_low <- c(min(re1$conf.int), min(re2$conf.int), min(re3$conf.int), min(re4$conf.int), min(re5$conf.int), min(re6$conf.int))
+confi_high<- c(max(re1$conf.int), max(re2$conf.int), max(re3$conf.int), max(re4$conf.int), max(re5$conf.int), max(re6$conf.int))
+difference_between_means <- c(abs(max(re1$estimate)-min(re1$estimate)), abs(max(re2$estimate)-min(re2$estimate)), abs(max(re3$estimate)-min(re3$estimate)), abs(max(re4$estimate)-min(re4$estimate)), abs(max(re5$estimate)-min(re5$estimate)), abs(max(re6$estimate)-min(re6$estimate)))
+
+result_data <- data.frame(species, p_value, df, t_statistic, confi_low, confi_high, difference_between_means)
+result_data
 ```
 
 Now that you have a table, you can reference it within a document. For example, you can make a call to Table \@ref(tab:table1) by referring to the name of the code chunk. When you knit the html it will create a hyperlink to your table and insert a legend above the table for you. How cool is that!?
@@ -272,19 +288,40 @@ Moving forward on that you can also add in an object and whatever that objects v
 
 This is all **VERY** cool because that means if your code or data change than you can update your entire report very fast. It's also 100% reproducible. We know exactly where every single value in your report comes from. This is all pretty helpful when you want to check your code and report side-by-side. Now that you have a bit more detail fill in the following:
 
-Mean activity for `r "species name here"` in the control group was `r "add code to place mean for control"` (s / min) compared to the OA treatment group, which was `r "mean for acidificaton treatment"` (s / min). The difference between control and OA treatment means was `r "code mean difference bw treatment"` (s / min) (95% CI: `r "code for lower CI"` to `r "code for upper CI"`). 
+Mean activity for `r "acantho"` in the control group was `r "re1$estimate"` (s / min) compared to the OA treatment group, which was `r "re1$estimate"` (s / min). The difference between control and OA treatment means was `r "max(re1$conf.int)-min(re1$conf.int)"` (s / min) (95% CI: `r "min(re1$conf.int)"` to `r "max(re1$conf.int)"`). 
 
 Now, using what you just learnt, describe what the null hypothesis being tested was and provide statistical evidence (t-statistic, df, and p-value) to support your conclusion about whether we can reject the null hypothesis. Again, make sure you use in-line code. Write you answer below:
 
 **Write your answer here**
-
+The null hypothesis is There is no difference between the activity for control groups and treatment groups.Because the t value is `r "re1$statistic"`, and the df is `r "re1$parameter"`, and the p value is `r "re1$p.value"` which is greater than \alpha=0.05. So we should accept the null hypothesis and make the conclusion that there is no differences between control group and treatment group.
 
 Re-analyse the data for a single species using permutations instead of a t-test. Do your results differ?
 
 >**Stretch Task**:  If you really want a challenge try doing permutation tests for each species. Again, loops, functions or tidyverse (or even combinations might help). 
 
-```{r, stretch2, echo=TRUE, eval=FALSE}
-# Add your code here.
+```{r, stretch2, echo=TRUE, eval=TRUE}
+# I really want to challenge myself :(, but due to my poor R ability, I just can do for one species.
+## permutate acantho
+permutate_acantho <- acantho1
+permutate_acantho$treatment <- permutate_acantho$treatment[sample(length(acantho1$treatment))]
+head(permutate_acantho)
+
+n_reps <- 1000
+
+samp_dist <- rep(1,n_reps)
+
+for (i in 1:n_reps)
+{
+    permuted_data <- acantho1 %>% mutate(treatment = treatment[sample(row_number())])
+    
+    permuted_test <- t.test(permuted_data$activity[which(permuted_data$treatment=="CO2")],permuted_data$activity[which(permuted_data$treatment=="control")])
+
+    samp_dist[i] <- permuted_test$statistic
+}
+
+t_test_statistic <- re1$statistic
+plot_tibble <- tibble(value = samp_dist,extreme = (abs(samp_dist) > abs(t_test_statistic)))
+ggplot(plot_tibble,aes(x=value,fill=extreme))+geom_histogram(bins=200)
 ```
 
 Below. Add a few sentences for the species (or multiple species) you talked about above to describe the permutation results:
