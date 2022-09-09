@@ -205,7 +205,9 @@ This task involves teaming up with a collaborator. Exchange *GitHub* username de
 Now, lets create a new figure in the code block below that simplifies the one produced in **Task 5**. Instead of all species, lets just plot three of the species (chromis, lemon, and acantho). In the figure code chunk make sure you add the necessary arguments (e.g., `fig.cap`) so that you can refer to Figure \@ref(fig:collabFig).
 
 ```{r, collabFig, echo=TRUE, eval=TRUE}
-
+collab_data <- new_data %>% filter(species==c("chromis","lemon","acantho"))
+ggplot(collab_data, mapping = aes(x = species, y = activity, colour=treatment))+
+   geom_boxplot()
 ```
 
 

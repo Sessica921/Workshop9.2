@@ -1,1 +1,2 @@
 # Workshop9.2
+The file we used is called workshop9.2 and all the figures, output and pngs could find in the file. If someone need to use me file, just use the latest file I update on the Github or the rmd file called git_fishes_student.Rmd. The fishes' figures are in the pics file and all the out put figures are in the output file and the original data is in file 'data'.And the plot that includes six species and the figures is called target.png.
